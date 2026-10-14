@@ -227,22 +227,49 @@ export function GuideDetailPage({ guide, navigate }: GuideDetailPageProps) {
           <AffiliateCard resource={affiliateResources[1]} />
         </section>
 
-        {/* Related Quizzes Navigation */}
+        {/* Related Quizzes Navigation with Visual Images */}
         {relatedQuizzes.length > 0 && (
-          <section className="p-6 bg-[#FFFFFF] border border-[#E7E9E5] rounded-2xl space-y-4">
-            <h2 className="text-lg font-bold text-[#252B28]">
-              Ready to test what you learned in this guide?
-            </h2>
-            <div className="flex flex-wrap gap-3">
+          <section className="p-6 sm:p-8 bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl space-y-5 shadow-sm">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#252B28]">
+                Ready to test what you learned in this guide?
+              </h2>
+              <p className="text-xs sm:text-sm text-[#69736D]">
+                Take the companion quiz with verified questions and immediate score feedback.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedQuizzes.map((rq) => (
-                <button
+                <div
                   key={rq!.slug}
-                  onClick={() => navigate(`/${rq!.categorySlug}/${rq!.slug}/`)}
-                  className="inline-flex items-center gap-2 bg-[#245747] text-[#FAF9F6] hover:bg-[#1b4336] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors"
+                  className="bg-[#FAF9F6] border border-[#E7E9E5] hover:border-emerald-400 rounded-2xl overflow-hidden p-4 flex gap-4 items-center group transition-all hover:shadow-md"
                 >
-                  <span>Take the {rq!.title}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                  {rq!.imagePath && (
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-emerald-200">
+                      <img
+                        src={rq!.imagePath}
+                        alt={rq!.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                  )}
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                      Level {rq!.level}
+                    </span>
+                    <h3 className="text-sm font-bold text-[#252B28] group-hover:text-[#245747] truncate">
+                      {rq!.title}
+                    </h3>
+                    <button
+                      onClick={() => navigate(`/${rq!.categorySlug}/${rq!.slug}/`)}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#245747] hover:underline pt-0.5"
+                    >
+                      <span>Take Practice Quiz</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
           </section>

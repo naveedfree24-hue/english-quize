@@ -17,6 +17,7 @@ export interface Quiz {
   fullDescription: string;
   level: CefrLevel;
   estimatedMinutes: number;
+  imagePath?: string;
   questions: QuizQuestion[];
   relatedQuizSlugs: string[];
   relatedGuideSlug?: string;

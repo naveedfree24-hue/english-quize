@@ -33,7 +33,6 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
   // AI Tutor explanation modal state
   const [aiExplanation, setAiExplanation] = useState<string | null>(null);
   const [isLoadingAi, setIsLoadingAi] = useState(false);
-  const [aiError, setAiError] = useState<string | null>(null);
 
   const questions = quiz.questions;
   const currentQ: QuizQuestion = questions[currentIndex];
@@ -121,7 +120,6 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
   // AI Tutor Explain Call
   const handleAskAiTutor = async (q: QuizQuestion, userAnsIndex: number) => {
     setIsLoadingAi(true);
-    setAiError(null);
     try {
       const res = await fetch('/api/ai-explain', {
         method: 'POST',
@@ -138,7 +136,6 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
       const data = await res.json();
       setAiExplanation(data.explanation || 'Review the grammar rule context and example sentences.');
     } catch (err: any) {
-      // Graceful pedagogical fallback
       setAiExplanation(
         `Why "${q.options[q.correctIndex]}" works: This follows standard English usage for ${q.topicTag || 'this topic'}. Remember: pay close attention to time markers and noun agreement.`
       );
@@ -147,40 +144,57 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
     }
   };
 
-  // 1. Initial Start Card
+  // 1. Initial Start Card (Mobile Phone & Desktop Optimized with Exercise Image)
   if (!hasStarted) {
     return (
-      <div className="bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-6 sm:p-10 shadow-md">
+      <div className="bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-5 sm:p-8 shadow-md overflow-hidden">
         <div className="max-w-2xl mx-auto text-center space-y-5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider border border-emerald-200">
+          {/* Exercise Visual Graphic */}
+          {quiz.imagePath && (
+            <div className="w-full max-w-sm mx-auto aspect-16/9 sm:aspect-16/10 rounded-2xl overflow-hidden border border-emerald-200 shadow-sm relative group">
+              <img
+                src={quiz.imagePath}
+                alt={quiz.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-end justify-center p-3">
+                <span className="text-xs font-bold text-white bg-black/60 backdrop-blur-xs px-3 py-1 rounded-full">
+                  Topic: {quiz.title}
+                </span>
+              </div>
+            </div>
+          )}
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase tracking-wider border border-emerald-200">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>Interactive Practice Quiz</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#252B28] tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-[#252B28] tracking-tight">
             Ready to test your knowledge?
           </h2>
 
-          <p className="text-sm sm:text-base text-[#69736D] leading-relaxed">
+          <p className="text-xs sm:text-base text-[#69736D] leading-relaxed">
             This quiz features {totalCount} carefully crafted multiple-choice questions with immediate explanations. Choose the best answer for each question and receive a complete score review at the end.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-[#252B28] pt-2">
-            <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3.5 py-1.5 rounded-xl font-bold">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-[#252B28] pt-1">
+            <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-xl font-bold">
               🎯 Level: {quiz.level}
             </span>
-            <span className="bg-sky-50 border border-sky-200 text-sky-800 px-3.5 py-1.5 rounded-xl font-bold">
-              ⏱️ Time: ~{quiz.estimatedMinutes} minutes
+            <span className="bg-sky-50 border border-sky-200 text-sky-800 px-3 py-1.5 rounded-xl font-bold">
+              ⏱️ ~{quiz.estimatedMinutes} mins
             </span>
-            <span className="bg-amber-50 border border-amber-200 text-amber-900 px-3.5 py-1.5 rounded-xl font-bold">
-              📝 Questions: {totalCount}
+            <span className="bg-amber-50 border border-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold">
+              📝 {totalCount} Questions
             </span>
           </div>
 
-          <div className="pt-4">
+          <div className="pt-3">
             <button
               onClick={handleStart}
-              className="bg-gradient-to-r from-[#245747] via-emerald-700 to-teal-800 hover:from-[#1b4336] hover:to-teal-900 text-[#FAF9F6] font-extrabold text-base px-9 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-3 focus:ring-emerald-400 active:scale-95"
+              className="w-full sm:w-auto bg-gradient-to-r from-[#245747] via-emerald-700 to-teal-800 hover:from-[#1b4336] hover:to-teal-900 text-[#FAF9F6] font-extrabold text-base px-10 py-4 rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-3 focus:ring-emerald-400 active:scale-95"
             >
               Start Quiz Now
             </button>
@@ -190,38 +204,44 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
     );
   }
 
-  // 2. Results Screen
+  // 2. Results Screen (Mobile & Desktop Celebratory View)
   if (isFinished) {
     return (
-      <div className="bg-[#FFFFFF] border border-[#E7E9E5] rounded-2xl p-6 sm:p-8 shadow-xs">
+      <div className="bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-5 sm:p-8 shadow-md">
         <div className="max-w-2xl mx-auto space-y-6">
           {/* Header & Score */}
-          <div className="text-center space-y-3 pb-6 border-b border-[#E7E9E5]">
-            <div className="w-16 h-16 mx-auto rounded-full bg-[#DCE9DF] flex items-center justify-center text-[#245747]">
-              <Award className="w-8 h-8" />
+          <div className="text-center space-y-4 pb-6 border-b border-[#E7E9E5]">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-gradient-to-br from-amber-200 to-emerald-200 flex items-center justify-center text-emerald-900 shadow-md">
+              <Award className="w-8 h-8 sm:w-10 sm:h-10 text-[#245747]" />
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#252B28]">
-              Quiz Completed!
-            </h2>
+            <div className="space-y-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200">
+                Quiz Complete
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#252B28] pt-1">
+                Your Practice Score
+              </h2>
+            </div>
 
             <div className="flex items-center justify-center gap-3">
-              <span className="text-3xl sm:text-4xl font-extrabold text-[#245747]">
+              <span className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 to-teal-900">
                 {correctCount} / {totalCount}
               </span>
-              <span className="text-base sm:text-lg font-bold text-[#69736D] bg-[#FAF9F6] border border-[#E7E9E5] px-3 py-1 rounded-lg">
+              <span className="text-base sm:text-lg font-extrabold text-emerald-800 bg-emerald-50 border-2 border-emerald-200 px-3.5 py-1 rounded-xl">
                 {scorePercent}%
               </span>
             </div>
 
-            <p className="text-sm text-[#252B28] font-medium max-w-lg mx-auto">
+            <p className="text-xs sm:text-sm text-[#252B28] font-medium max-w-lg mx-auto bg-[#FAF9F6] p-3 rounded-xl border border-[#E7E9E5]">
               {getEncouragement()}
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            {/* Mobile-Friendly Action Buttons Stack */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5">
               <button
                 onClick={handleRestart}
-                className="inline-flex items-center gap-1.5 bg-[#245747] text-[#FAF9F6] hover:bg-[#1b4336] px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors focus:ring-2 focus:ring-[#245747]"
+                className="inline-flex items-center justify-center gap-2 bg-[#245747] text-[#FAF9F6] hover:bg-[#1b4336] px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm active:scale-95"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Retake Quiz</span>
@@ -229,7 +249,7 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
 
               <button
                 onClick={handleShare}
-                className="inline-flex items-center gap-1.5 bg-[#FAF9F6] text-[#252B28] hover:bg-[#E7E9E5] border border-[#E7E9E5] px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-[#FFFFFF] text-[#252B28] hover:bg-[#FAF9F6] border border-[#E7E9E5] hover:border-[#245747] px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-2xs active:scale-95"
               >
                 <Share2 className="w-4 h-4 text-[#245747]" />
                 <span>Share Results</span>
@@ -237,7 +257,7 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
 
               <button
                 onClick={() => setIsReviewMode(!isReviewMode)}
-                className="inline-flex items-center gap-1.5 bg-[#DCE9DF]/60 text-[#245747] hover:bg-[#DCE9DF] px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-emerald-100/70 text-emerald-900 hover:bg-emerald-100 px-6 py-3 rounded-xl text-sm font-bold transition-all border border-emerald-200 active:scale-95"
               >
                 {isReviewMode ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 <span>{isReviewMode ? 'Hide Review' : 'Review Answers'}</span>
@@ -245,16 +265,16 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
             </div>
 
             {shareFeedback && (
-              <p className="text-xs text-[#245747] font-semibold animate-fade-in pt-1">
-                {shareFeedback}
+              <p className="text-xs text-emerald-700 font-bold animate-fade-in pt-1">
+                ✓ {shareFeedback}
               </p>
             )}
           </div>
 
-          {/* Review Answers Accordion Mode */}
+          {/* Detailed Question Review Mode */}
           {isReviewMode && (
             <div className="space-y-4 pt-2">
-              <h3 className="text-base font-bold text-[#252B28]">
+              <h3 className="text-base font-extrabold text-[#252B28]">
                 Detailed Question Review ({totalCount} Questions)
               </h3>
               {questions.map((q, idx) => {
@@ -264,45 +284,45 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
                 return (
                   <div
                     key={q.id}
-                    className={`p-4 rounded-xl border text-sm space-y-2 ${
+                    className={`p-4 rounded-2xl border-2 text-sm space-y-2.5 shadow-2xs ${
                       isCorrect
-                        ? 'bg-[#F2F7F4] border-[#C5D9CA]'
-                        : 'bg-[#FFF7F5] border-[#F2C4BC]'
+                        ? 'bg-emerald-50/70 border-emerald-300'
+                        : 'bg-rose-50/70 border-rose-300'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <span className="font-bold text-xs uppercase tracking-wide text-[#69736D]">
+                      <span className="font-extrabold text-[11px] uppercase tracking-wide text-[#69736D]">
                         Question {idx + 1} • {q.topicTag}
                       </span>
                       {isCorrect ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#245747]">
-                          <CheckCircle2 className="w-4 h-4" /> Correct
+                        <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Correct
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#B93826]">
-                          <XCircle className="w-4 h-4" /> Incorrect
+                        <span className="inline-flex items-center gap-1 text-xs font-extrabold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">
+                          <XCircle className="w-3.5 h-3.5" /> Incorrect
                         </span>
                       )}
                     </div>
 
-                    <p className="font-semibold text-[#252B28]">{q.question}</p>
+                    <p className="font-bold text-[#252B28]">{q.question}</p>
 
                     <div className="text-xs space-y-1">
                       <p>
                         Your Answer:{' '}
-                        <span className={isCorrect ? 'font-bold text-[#245747]' : 'font-bold text-[#B93826]'}>
-                          {q.options[userAns]}
+                        <span className={isCorrect ? 'font-bold text-emerald-800' : 'font-bold text-rose-800'}>
+                          {q.options[userAns] || 'Skipped'}
                         </span>
                       </p>
                       {!isCorrect && (
                         <p>
                           Correct Answer:{' '}
-                          <span className="font-bold text-[#245747]">{q.options[q.correctIndex]}</span>
+                          <span className="font-bold text-emerald-800">{q.options[q.correctIndex]}</span>
                         </p>
                       )}
                     </div>
 
-                    <div className="p-3 bg-[#FFFFFF] rounded-lg border border-[#E7E9E5]/80 text-xs text-[#252B28] leading-relaxed">
+                    <div className="p-3 bg-[#FFFFFF] rounded-xl border border-[#E7E9E5] text-xs text-[#252B28] leading-relaxed">
                       <strong>Explanation:</strong> {q.explanation}
                     </div>
                   </div>
@@ -311,10 +331,10 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
             </div>
           )}
 
-          {/* Recommended Next Step */}
+          {/* Recommended Next Quizzes */}
           {quiz.relatedQuizSlugs.length > 0 && (
             <div className="pt-4 border-t border-[#E7E9E5]">
-              <h3 className="text-sm font-bold text-[#252B28] mb-3">
+              <h3 className="text-xs sm:text-sm font-extrabold text-[#252B28] mb-3">
                 Recommended Next Quizzes:
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -322,10 +342,10 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
                   <button
                     key={slug}
                     onClick={() => onNavigateQuiz && onNavigateQuiz(slug)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#245747] bg-[#FAF9F6] border border-[#E7E9E5] hover:bg-[#DCE9DF]/50 px-3 py-1.5 rounded-lg transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#245747] bg-[#FAF9F6] border border-[#E7E9E5] hover:bg-emerald-50 px-3.5 py-2 rounded-xl transition-colors shadow-2xs"
                   >
                     <span>{slug.replace(/-/g, ' ')}</span>
-                    <ArrowRight className="w-3 h-3" />
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 ))}
               </div>
@@ -336,17 +356,17 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
     );
   }
 
-  // 3. Active Quiz Question View
+  // 3. Active Quiz Question View (Telephone / Mobile & Desktop Responsive)
   return (
-    <div className="bg-[#FFFFFF] border border-[#E7E9E5] rounded-2xl p-5 sm:p-8 shadow-xs">
+    <div className="bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-4 sm:p-8 shadow-md">
       <div className="max-w-2xl mx-auto space-y-5">
         {/* Progress & Live Region */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-[#69736D]">
-            <span aria-live="polite">
+          <div className="flex items-center justify-between text-xs font-bold text-[#69736D]">
+            <span aria-live="polite" className="text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">
               Question {currentIndex + 1} of {totalCount}
             </span>
-            <span className="text-[11px] bg-[#FAF9F6] border border-[#E7E9E5] px-2.5 py-0.5 rounded-full text-[#252B28]">
+            <span className="text-[11px] bg-zinc-100 border border-zinc-200 px-2.5 py-0.5 rounded-full text-[#252B28] truncate max-w-[160px] sm:max-w-none">
               {currentQ.topicTag || quiz.title}
             </span>
           </div>
@@ -371,7 +391,7 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
             {currentQ.question}
           </legend>
 
-          {/* Options */}
+          {/* Options (Large touch targets for telephone screens >=52px) */}
           <div className="space-y-2.5" role="radiogroup" aria-label="Answer options">
             {currentQ.options.map((opt, idx) => {
               const isSelected = selectedOption === idx;
@@ -396,21 +416,21 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
                   type="button"
                   onClick={() => handleSelectOption(idx)}
                   disabled={isAnswerChecked}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all text-sm sm:text-base flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${buttonStyle}`}
+                  className={`w-full text-left p-3.5 sm:p-4 rounded-2xl border-2 transition-all min-h-[52px] text-sm sm:text-base flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 active:scale-[0.99] ${buttonStyle}`}
                 >
                   <span className="flex items-center gap-3">
-                    <span className={`w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-extrabold ${
+                    <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl border flex items-center justify-center text-xs sm:text-sm font-extrabold shrink-0 ${
                       isSelected && !isAnswerChecked
                         ? 'bg-emerald-600 text-white border-emerald-600'
                         : isAnswerChecked && isCorrectAnswer
                         ? 'bg-emerald-600 text-white border-emerald-600'
                         : isAnswerChecked && isSelected
                         ? 'bg-rose-600 text-white border-rose-600'
-                        : 'bg-white text-zinc-600 border-zinc-200'
+                        : 'bg-white text-zinc-700 border-zinc-200'
                     }`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    <span>{opt}</span>
+                    <span className="leading-snug">{opt}</span>
                   </span>
 
                   {isAnswerChecked && isCorrectAnswer && (
@@ -425,16 +445,16 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
           </div>
         </fieldset>
 
-        {/* Action Button: Check Answer or Next */}
+        {/* Mobile-Friendly Action Area (Sticky on mobile for effortless single-hand thumb tapping) */}
         {!isAnswerChecked ? (
-          <div className="pt-2">
+          <div className="pt-2 sticky sm:static bottom-3 z-20 bg-white/95 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none p-2 sm:p-0 rounded-2xl shadow-lg sm:shadow-none border sm:border-0 border-emerald-100">
             <button
               onClick={handleCheckAnswer}
               disabled={selectedOption === null}
-              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-xs ${
+              className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm transition-all shadow-sm active:scale-95 ${
                 selectedOption === null
                   ? 'bg-[#E7E9E5] text-[#A3ABA5] cursor-not-allowed'
-                  : 'bg-[#245747] hover:bg-[#1b4336] text-[#FAF9F6] focus:ring-2 focus:ring-[#245747]'
+                  : 'bg-gradient-to-r from-[#245747] to-teal-800 hover:from-[#1b4336] hover:to-teal-900 text-[#FAF9F6] focus:ring-2 focus:ring-emerald-500 shadow-md'
               }`}
             >
               Check Answer
@@ -444,19 +464,19 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
           <div className="space-y-4 pt-2">
             {/* Answer Explanation Banner */}
             <div
-              className={`p-4 rounded-xl border text-sm leading-relaxed space-y-2 ${
+              className={`p-4 sm:p-5 rounded-2xl border-2 text-sm leading-relaxed space-y-2.5 shadow-sm ${
                 selectedOption === currentQ.correctIndex
-                  ? 'bg-[#EDF6EE] border-[#C5D9CA]'
-                  : 'bg-[#FDF0EE] border-[#F2C4BC]'
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                  : 'bg-rose-50 border-rose-300 text-rose-950'
               }`}
             >
-              <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
+              <div className="flex items-center gap-2 font-extrabold text-xs uppercase tracking-wide">
                 {selectedOption === currentQ.correctIndex ? (
-                  <span className="text-[#1E4620] flex items-center gap-1">
+                  <span className="text-emerald-800 flex items-center gap-1.5 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                     <CheckCircle2 className="w-4 h-4" /> That's correct!
                   </span>
                 ) : (
-                  <span className="text-[#8F1D1D] flex items-center gap-1">
+                  <span className="text-rose-800 flex items-center gap-1.5 bg-rose-100 px-2.5 py-0.5 rounded-full">
                     <XCircle className="w-4 h-4" /> Not quite right
                   </span>
                 )}
@@ -471,9 +491,9 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
                 <button
                   onClick={() => handleAskAiTutor(currentQ, selectedOption ?? 0)}
                   disabled={isLoadingAi}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#245747] hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#245747] hover:underline"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                   <span>
                     {isLoadingAi ? 'Consulting AI Tutor...' : 'Ask AI Tutor for deeper explanation'}
                   </span>
@@ -481,9 +501,9 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
               </div>
 
               {aiExplanation && (
-                <div className="p-3 bg-[#FFFFFF] rounded-lg border border-[#E7E9E5] text-xs text-[#252B28] space-y-1.5 animate-fade-in">
+                <div className="p-3.5 bg-[#FFFFFF] rounded-xl border border-emerald-200 text-xs text-[#252B28] space-y-1.5 animate-fade-in shadow-2xs">
                   <div className="flex items-center gap-1 font-bold text-[#245747]">
-                    <Sparkles className="w-3.5 h-3.5" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     <span>AI Tutor Note:</span>
                   </div>
                   <p className="whitespace-pre-line leading-relaxed">{aiExplanation}</p>
@@ -491,14 +511,16 @@ export function QuizEngine({ quiz, onNavigateCategory, onNavigateQuiz }: QuizEng
               )}
             </div>
 
-            {/* Next Button */}
-            <button
-              onClick={handleNextQuestion}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#245747] hover:bg-[#1b4336] text-[#FAF9F6] px-8 py-3 rounded-xl font-semibold text-sm transition-all focus:ring-2 focus:ring-[#245747]"
-            >
-              <span>{currentIndex + 1 < totalCount ? 'Next Question' : 'View Final Score'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {/* Next Button (Sticky on mobile for effortless tapping) */}
+            <div className="sticky sm:static bottom-3 z-20 bg-white/95 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none p-2 sm:p-0 rounded-2xl shadow-lg sm:shadow-none border sm:border-0 border-emerald-100">
+              <button
+                onClick={handleNextQuestion}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#245747] to-teal-800 hover:from-[#1b4336] hover:to-teal-900 text-[#FAF9F6] px-9 py-3.5 rounded-xl font-extrabold text-sm transition-all shadow-md active:scale-95"
+              >
+                <span>{currentIndex + 1 < totalCount ? 'Next Question' : 'View Final Score'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
       </div>

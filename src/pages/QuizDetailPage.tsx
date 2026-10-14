@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, HelpCircle, ArrowRight, BookOpen, AlertCircle, HelpCircle as FaqIcon } from 'lucide-react';
+import { Clock, HelpCircle, ArrowRight, BookOpen, AlertCircle, Sparkles, HelpCircle as FaqIcon } from 'lucide-react';
 import { Quiz } from '../types';
 import { categories } from '../data/categories';
 import { quizzes, getQuizBySlug } from '../data/quizzes';
@@ -55,7 +55,7 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
     .filter((q): q is Quiz => !!q);
 
   return (
-    <article className="space-y-10 sm:space-y-12">
+    <article className="space-y-8 sm:space-y-12">
       <SeoHead
         title={quiz.title}
         description={quiz.fullDescription}
@@ -71,33 +71,56 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
         navigate={navigate}
       />
 
-      {/* Above the Quiz: Hero Header */}
-      <header className="space-y-4 max-w-3xl">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full shadow-2xs">
-            Level {quiz.level}
-          </span>
-          <span className="text-xs font-bold text-[#245747] bg-[#DCE9DF] border border-[#C5D9CA] px-3 py-1 rounded-full">
-            {category?.name || 'Practice Quiz'}
-          </span>
-          <span className="text-xs font-medium text-[#69736D] flex items-center gap-1 bg-white border border-[#E7E9E5] px-2.5 py-1 rounded-full">
-            <Clock className="w-3.5 h-3.5 text-amber-500" /> ~{quiz.estimatedMinutes} minutes
-          </span>
-          <span className="text-xs font-medium text-[#69736D] flex items-center gap-1 bg-white border border-[#E7E9E5] px-2.5 py-1 rounded-full">
-            <HelpCircle className="w-3.5 h-3.5 text-teal-600" /> {quiz.questions.length} questions
-          </span>
+      {/* Above the Quiz: Visual Hero Header (Mobile-Optimized & Desktop Split) */}
+      <header className="bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-5 sm:p-8 shadow-sm overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          <div className="lg:col-span-8 space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full shadow-2xs">
+                Level {quiz.level}
+              </span>
+              <span className="text-xs font-bold text-[#245747] bg-[#DCE9DF] border border-[#C5D9CA] px-3 py-1 rounded-full">
+                {category?.name || 'Practice Quiz'}
+              </span>
+              <span className="text-xs font-medium text-[#69736D] flex items-center gap-1 bg-white border border-[#E7E9E5] px-2.5 py-1 rounded-full">
+                <Clock className="w-3.5 h-3.5 text-amber-500" /> ~{quiz.estimatedMinutes} mins
+              </span>
+              <span className="text-xs font-medium text-[#69736D] flex items-center gap-1 bg-white border border-[#E7E9E5] px-2.5 py-1 rounded-full">
+                <HelpCircle className="w-3.5 h-3.5 text-teal-600" /> {quiz.questions.length} Qs
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#252B28] tracking-tight leading-tight">
+              {quiz.title}
+            </h1>
+
+            <p className="text-sm sm:text-base text-[#69736D] leading-relaxed">
+              {quiz.fullDescription}
+            </p>
+          </div>
+
+          {/* Exercise Thematic Graphic Thumbnail */}
+          {quiz.imagePath && (
+            <div className="lg:col-span-4 flex justify-center">
+              <div className="w-full max-w-[280px] sm:max-w-none aspect-square rounded-2xl overflow-hidden border-2 border-emerald-100 shadow-md relative group">
+                <img
+                  src={quiz.imagePath}
+                  alt={quiz.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-end p-3">
+                  <span className="text-[11px] font-bold text-white bg-black/50 backdrop-blur-xs px-2.5 py-1 rounded-lg">
+                    Exercise Topic Visual
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#252B28] tracking-tight leading-tight">
-          {quiz.title}
-        </h1>
-
-        <p className="text-base sm:text-lg text-[#69736D] leading-relaxed">
-          {quiz.fullDescription}
-        </p>
       </header>
 
-      {/* Interactive Quiz Engine */}
+      {/* Interactive Quiz Engine (With mobile-optimized controls) */}
       <section aria-label="Interactive Quiz">
         <QuizEngine
           quiz={quiz}
@@ -111,14 +134,14 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
         />
       </section>
 
-      {/* Disabled-by-default ad placeholder after quiz completion zone */}
+      {/* Disabled-by-default ad placeholder */}
       <AdPlacement slotType="postQuiz" />
 
       {/* Substantial Educational Content Below the Interaction */}
-      <section className="space-y-10 pt-4 border-t border-[#E7E9E5]">
+      <section className="space-y-8 sm:space-y-10 pt-4 border-t border-[#E7E9E5]">
         {/* Overview & Audience */}
-        <div className="bg-[#FFFFFF] border border-[#E7E9E5] rounded-2xl p-6 sm:p-8 space-y-4">
-          <h2 className="text-xl font-bold text-[#252B28] flex items-center gap-2">
+        <div className="bg-[#FFFFFF] border border-[#E7E9E5] rounded-2xl p-5 sm:p-8 space-y-4">
+          <h2 className="text-lg sm:text-xl font-bold text-[#252B28] flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-[#245747]" />
             <span>Topic Overview & Target Level</span>
           </h2>
@@ -132,14 +155,14 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
 
         {/* Key Rules and Examples */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-[#252B28]">
+          <h2 className="text-lg sm:text-xl font-bold text-[#252B28]">
             Key Rules & Examples to Remember
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quiz.educationalContent.keyRules.map((kr, idx) => (
               <div key={idx} className="bg-[#FFFFFF] border border-[#E7E9E5] p-5 rounded-xl space-y-2">
                 <h3 className="text-sm font-bold text-[#245747]">{kr.rule}</h3>
-                <p className="text-xs sm:text-sm text-[#252B28] font-mono bg-[#FAF9F6] p-2 rounded-lg border border-[#E7E9E5]/60">
+                <p className="text-xs sm:text-sm text-[#252B28] font-mono bg-[#FAF9F6] p-2.5 rounded-lg border border-[#E7E9E5]/60">
                   {kr.example}
                 </p>
                 {kr.note && <p className="text-xs text-[#69736D]">{kr.note}</p>}
@@ -148,14 +171,14 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
           </div>
         </div>
 
-        {/* Common Mistakes Table */}
+        {/* Common Mistakes Table (Optimized for Mobile Scrolling) */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-[#252B28] flex items-center gap-2">
+          <h2 className="text-lg sm:text-xl font-bold text-[#252B28] flex items-center gap-2">
             <AlertCircle className="w-5 h-5 text-[#B93826]" />
             <span>Common Mistakes and Pitfalls</span>
           </h2>
           <div className="overflow-x-auto bg-[#FFFFFF] border border-[#E7E9E5] rounded-xl">
-            <table className="w-full text-left text-xs sm:text-sm">
+            <table className="w-full text-left text-xs sm:text-sm min-w-[320px]">
               <thead className="bg-[#FAF9F6] border-b border-[#E7E9E5] text-[#69736D]">
                 <tr>
                   <th className="p-3.5 sm:p-4 font-bold">Incorrect Usage</th>
@@ -176,10 +199,10 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
           </div>
         </div>
 
-        {/* Frequently Asked Questions (if available) */}
+        {/* Frequently Asked Questions */}
         {quiz.educationalContent.faqs && quiz.educationalContent.faqs.length > 0 && (
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-[#252B28] flex items-center gap-2">
+            <h2 className="text-lg sm:text-xl font-bold text-[#252B28] flex items-center gap-2">
               <FaqIcon className="w-5 h-5 text-[#245747]" />
               <span>Frequently Asked Questions</span>
             </h2>
@@ -194,7 +217,7 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
           </div>
         )}
 
-        {/* Recommended Learning Resource (Ethical Affiliate / Reference) */}
+        {/* Recommended Reference Material */}
         <div className="space-y-3">
           <h3 className="text-base font-bold text-[#252B28]">Recommended Reference Material:</h3>
           <AffiliateCard resource={affiliateResources[0]} />
@@ -208,7 +231,7 @@ export function QuizDetailPage({ quiz, navigate }: QuizDetailPageProps) {
               {relatedQuizzes.map((rq) => (
                 <div
                   key={rq.slug}
-                  className="p-4 bg-[#FFFFFF] border border-[#E7E9E5] hover:border-[#245747]/40 rounded-xl flex flex-col justify-between group transition-colors"
+                  className="p-4 bg-[#FFFFFF] border border-[#E7E9E5] hover:border-[#245747] rounded-xl flex flex-col justify-between group transition-colors shadow-2xs"
                 >
                   <div>
                     <span className="text-[10px] font-bold uppercase text-[#245747] bg-[#DCE9DF] px-2 py-0.5 rounded-full">

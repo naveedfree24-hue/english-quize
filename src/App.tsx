@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Home, BookOpen, Sparkles, GraduationCap } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -72,7 +73,7 @@ export default function App() {
       return <GuidesIndexPage navigate={navigate} />;
     }
 
-    // 5. Learning Guide Detail (e.g. /english-learning-guides/present-perfect-vs-past-simple)
+    // 5. Learning Guide Detail
     if (path.startsWith('/english-learning-guides/')) {
       const guideSlug = path.replace('/english-learning-guides/', '');
       const guide = getGuideBySlug(guideSlug);
@@ -83,14 +84,12 @@ export default function App() {
     }
 
     // 6. Category Pages
-    // (e.g. /english-grammar-quizzes, /english-vocabulary-tests, /english-level-practice, /business-english)
     const categoryKey = path.replace(/^\//, '');
     if (categories[categoryKey]) {
       return <CategoryPage categorySlug={categoryKey} navigate={navigate} />;
     }
 
     // 7. Individual Quiz Pages
-    // (e.g. /english-grammar-quizzes/present-perfect-vs-past-simple)
     const pathParts = path.split('/').filter(Boolean);
     if (pathParts.length === 2) {
       const [catSlug, qSlug] = pathParts;
@@ -129,10 +128,70 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#252B28]">
       <Navbar currentPath={currentPath} navigate={navigate} />
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      
+      {/* Main Container with telephone mobile bottom padding */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-10 pb-28 sm:pb-12">
         {renderCurrentPage()}
       </main>
+
       <Footer navigate={navigate} />
+
+      {/* Telephone / Mobile Version Bottom Navigation Bar */}
+      <nav
+        aria-label="Mobile Bottom Navigation"
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#FFFFFF]/95 backdrop-blur-md border-t border-[#E7E9E5] px-2 py-1.5 flex items-center justify-around shadow-2xl"
+      >
+        <button
+          onClick={() => navigate('/')}
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all ${
+            currentPath === '/' ? 'text-[#245747] font-extrabold' : 'text-[#69736D]'
+          }`}
+          aria-label="Home"
+        >
+          <Home className={`w-5 h-5 ${currentPath === '/' ? 'text-[#245747]' : 'text-[#69736D]'}`} />
+          <span className="text-[10px]">Home</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/quizzes/')}
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all ${
+            currentPath.startsWith('/quizzes') || currentPath.includes('-quizzes') || currentPath.includes('-tests')
+              ? 'text-[#245747] font-extrabold'
+              : 'text-[#69736D]'
+          }`}
+          aria-label="Quizzes"
+        >
+          <BookOpen className={`w-5 h-5 ${currentPath.startsWith('/quizzes') ? 'text-[#245747]' : 'text-[#69736D]'}`} />
+          <span className="text-[10px]">Quizzes</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/ai-quiz-generator/')}
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all ${
+            currentPath === '/ai-quiz-generator/' || currentPath === '/ai-quiz-generator'
+              ? 'text-amber-600 font-extrabold'
+              : 'text-[#69736D]'
+          }`}
+          aria-label="AI Practice"
+        >
+          <div className="relative">
+            <Sparkles className="w-5 h-5 text-amber-500" />
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+          </div>
+          <span className="text-[10px] font-bold">AI Tutor</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/english-learning-guides/')}
+          className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all ${
+            currentPath.startsWith('/english-learning-guides') ? 'text-[#245747] font-extrabold' : 'text-[#69736D]'
+          }`}
+          aria-label="Guides"
+        >
+          <GraduationCap className={`w-5 h-5 ${currentPath.startsWith('/english-learning-guides') ? 'text-[#245747]' : 'text-[#69736D]'}`} />
+          <span className="text-[10px]">Guides</span>
+        </button>
+      </nav>
     </div>
   );
 }

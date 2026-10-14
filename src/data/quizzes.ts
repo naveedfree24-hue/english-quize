@@ -12,6 +12,7 @@ export const quizzes: Quiz[] = [
       'Choosing between the Present Perfect (have + past participle) and the Past Simple (-ed / irregular) is one of the most common challenges for English learners. Practise identifying specific time markers, life experiences, and present consequences across 10 realistic questions.',
     level: 'B1',
     estimatedMinutes: 8,
+    imagePath: '/src/assets/images/grammar_quiz_concept_1791840162391.jpg',
     relatedQuizSlugs: ['english-prepositions-test', 'b1-english-grammar-test', 'english-common-mistakes-quiz'],
     relatedGuideSlug: 'present-perfect-vs-past-simple',
     questions: [
@@ -171,6 +172,7 @@ export const quizzes: Quiz[] = [
       'English prepositions rarely translate word-for-word between languages. Test your command of "at 5 o\'clock", "in July", "on Monday", "on the bus", "in the car", and common expressions like "interested in" or "good at".',
     level: 'A2',
     estimatedMinutes: 7,
+    imagePath: '/src/assets/images/prepositions_clock_map_1791991423565.jpg',
     relatedQuizSlugs: ['english-articles-a-an-the', 'english-common-mistakes-quiz', 'b1-english-grammar-test'],
     relatedGuideSlug: 'how-to-use-english-prepositions',
     questions: [
@@ -313,6 +315,7 @@ export const quizzes: Quiz[] = [
       'Should you say "the university" or "an university"? "Go to hospital" or "go to the hospital"? Articles are among the most frequently tested grammar points. Learn the rules for specific reference, sound-based choices (vowel vs consonant sounds), and general statements.',
     level: 'B1',
     estimatedMinutes: 8,
+    imagePath: '/src/assets/images/articles_grammar_concept_1791991425562.jpg',
     relatedQuizSlugs: ['english-grammar-quizzes/english-common-mistakes-quiz', 'english-prepositions-test'],
     relatedGuideSlug: 'when-to-use-a-an-and-the',
     questions: [
@@ -451,6 +454,7 @@ export const quizzes: Quiz[] = [
       'Conditionals allow us to talk about scientific facts, realistic future plans, imaginary scenarios, and past regrets. Test your ability to choose the correct verb combinations across all four standard conditional patterns.',
     level: 'B2',
     estimatedMinutes: 9,
+    imagePath: '/src/assets/images/conditionals_crossroad_concept_1791991425818.jpg',
     relatedQuizSlugs: ['b1-english-grammar-test', 'b2-english-grammar-practice', 'present-perfect-vs-past-simple'],
     educationalContent: {
       overview:
@@ -578,6 +582,7 @@ export const quizzes: Quiz[] = [
       'Even advanced learners frequently make minor slips with collective nouns, "borrow vs lend", "every vs each", and inverted questions. Test your eye for accuracy across 10 commonly tested mistakes.',
     level: 'B1',
     estimatedMinutes: 8,
+    imagePath: '/src/assets/images/common_mistakes_corrector_1791991426420.jpg',
     relatedQuizSlugs: ['english-grammar-quizzes/present-perfect-vs-past-simple', 'english-prepositions-test'],
     educationalContent: {
       overview:
@@ -706,6 +711,7 @@ export const quizzes: Quiz[] = [
       'Designed for A2 elementary learners, this quiz tests essential words and everyday collocations used in restaurants, airports, hotels, and daily conversations.',
     level: 'A2',
     estimatedMinutes: 6,
+    imagePath: '/src/assets/images/vocabulary_concept_art_1791840172513.jpg',
     relatedQuizSlugs: ['phrasal-verbs-test', 'english-prepositions-test'],
     educationalContent: {
       overview:
@@ -819,6 +825,7 @@ export const quizzes: Quiz[] = [
       'Phrasal verbs (verb + particle) give spoken English its natural rhythm. From "give up" and "turn down" to "run out of" and "put off", test your ability to understand and use these verbs in everyday situations.',
     level: 'B1',
     estimatedMinutes: 8,
+    imagePath: '/src/assets/images/phrasal_verbs_action_1791991426456.jpg',
     relatedQuizSlugs: ['a2-english-vocabulary-quiz', 'business-english-vocabulary-test'],
     educationalContent: {
       overview:
@@ -931,6 +938,7 @@ export const quizzes: Quiz[] = [
       'This comprehensive B1 diagnostic test assesses whether your grammar foundation is solid across modal verbs of deduction, past continuous vs simple, passive voice basics, and defining relative clauses.',
     level: 'B1',
     estimatedMinutes: 9,
+    imagePath: '/src/assets/images/level_practice_banner_1791840183508.jpg',
     relatedQuizSlugs: ['present-perfect-vs-past-simple', 'b2-english-grammar-practice', 'english-conditionals-quiz'],
     educationalContent: {
       overview:
@@ -1052,6 +1060,7 @@ export const quizzes: Quiz[] = [
       'Upper-intermediate English requires nuanced command of emphasis, formal inversion, wishes, regrets, and subjunctive forms. Test your readiness for Cambridge B2 First or IELTS 6.0–7.0.',
     level: 'B2',
     estimatedMinutes: 10,
+    imagePath: '/src/assets/images/level_practice_banner_1791840183508.jpg',
     relatedQuizSlugs: ['b1-english-grammar-test', 'english-conditionals-quiz'],
     educationalContent: {
       overview:
@@ -1174,6 +1183,7 @@ export const quizzes: Quiz[] = [
       'From boardroom negotiations and formal emails to agile project terminology and diplomatic phrasing, test your ability to communicate effectively in international business environments.',
     level: 'B2',
     estimatedMinutes: 8,
+    imagePath: '/src/assets/images/business_english_graphic_1791840191754.jpg',
     relatedQuizSlugs: ['phrasal-verbs-test', 'b2-english-grammar-practice'],
     educationalContent: {
       overview:
