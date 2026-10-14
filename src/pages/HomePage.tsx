@@ -120,7 +120,7 @@ export function HomePage({ navigate }: HomePageProps) {
 
               <div className="relative bg-[#FFFFFF] border-2 border-emerald-100 rounded-3xl p-3 shadow-xl overflow-hidden">
                 <img
-                  src="/src/assets/images/hero_english_learning_1791840152314.jpg"
+                  src="/images/hero_english_learning.jpg"
                   alt="Students enthusiastically learning English grammar and vocabulary together"
                   className="w-full h-auto rounded-2xl object-cover shadow-sm hover:scale-[1.01] transition-transform duration-300"
                   referrerPolicy="no-referrer"

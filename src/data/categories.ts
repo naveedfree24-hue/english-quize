@@ -10,7 +10,7 @@ export const categories: Record<string, QuizCategory> = {
     metaDescription:
       'Practise English grammar with free interactive quizzes. Detailed explanations on verb tenses, prepositions, conditionals, articles, and common mistakes.',
     iconName: 'BookOpen',
-    imagePath: '/src/assets/images/grammar_quiz_concept_1791840162391.jpg',
+    imagePath: '/images/grammar_quiz_concept.jpg',
     badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
     gradient: 'from-emerald-600 to-teal-800',
     learningOutcomes: [
@@ -29,7 +29,7 @@ export const categories: Record<string, QuizCategory> = {
     metaDescription:
       'Free English vocabulary tests and phrasal verbs practice. Discover context-based meanings, common idioms, and natural collocations with clear examples.',
     iconName: 'GraduationCap',
-    imagePath: '/src/assets/images/vocabulary_concept_art_1791840172513.jpg',
+    imagePath: '/images/vocabulary_concept_art.jpg',
     badgeColor: 'bg-amber-100 text-amber-900 border-amber-200',
     gradient: 'from-amber-600 to-orange-700',
     learningOutcomes: [
@@ -48,7 +48,7 @@ export const categories: Record<string, QuizCategory> = {
     metaDescription:
       'Test your English grammar level with comprehensive B1 intermediate and B2 upper-intermediate practice quizzes. Pinpoint strengths and areas to review.',
     iconName: 'Award',
-    imagePath: '/src/assets/images/level_practice_banner_1791840183508.jpg',
+    imagePath: '/images/level_practice_banner.jpg',
     badgeColor: 'bg-teal-100 text-teal-800 border-teal-200',
     gradient: 'from-teal-700 to-cyan-900',
     learningOutcomes: [
@@ -67,7 +67,7 @@ export const categories: Record<string, QuizCategory> = {
     metaDescription:
       'Practise Business English vocabulary and workplace communication. Test your knowledge of business idioms, formal email phrasing, and meeting terminology.',
     iconName: 'Briefcase',
-    imagePath: '/src/assets/images/business_english_graphic_1791840191754.jpg',
+    imagePath: '/images/business_english_graphic.jpg',
     badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-200',
     gradient: 'from-slate-800 to-indigo-950',
     learningOutcomes: [

@@ -67,6 +67,7 @@ The repository includes a preconfigured `netlify.toml` file that specifies:
 - Build command: `npm run build`
 - Publish directory: `dist`
 - Client-side SPA redirect rule: `/* -> /index.html (200)`
+- Static assets: Stored in `/public/images/` and copied automatically into `dist/images/` during build so all images resolve reliably in production.
 - Strict security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`)
 
 ### Method A: Git-Connected Netlify Deployment (Recommended)
