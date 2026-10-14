@@ -1,0 +1,6 @@
+{
+  "name": "Clear English Quiz",
+  "description": "Free SEO-first English quizzes, grammar tests, vocabulary practice, and learning guides with clear explanations and AI practice.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

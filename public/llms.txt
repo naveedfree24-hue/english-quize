@@ -1,0 +1,32 @@
+# Clear English Quiz (https://clearenglishquiz.com/)
+
+> Learn English. Test Yourself. Grow with Confidence.
+
+Clear English Quiz is a free, interactive English-learning platform designed for global English language learners (CEFR A2, B1, B2, and C1). It provides self-contained grammar quizzes, vocabulary tests, business English practice, and comprehensive learning guides with clear, step-by-step explanations for every single question.
+
+## Core Learning Categories
+- [All Quizzes](https://clearenglishquiz.com/quizzes/): Complete index of English grammar and vocabulary quizzes.
+- [English Grammar Quizzes](https://clearenglishquiz.com/english-grammar-quizzes/): Tenses, prepositions, articles, conditionals, and common mistakes.
+- [English Vocabulary Tests](https://clearenglishquiz.com/english-vocabulary-tests/): Essential vocabulary, idioms, and high-frequency phrasal verbs.
+- [English Level Practice](https://clearenglishquiz.com/english-level-practice/): Practice organized by CEFR levels (A2, B1, B2).
+- [Business English](https://clearenglishquiz.com/business-english/): Workplace vocabulary, emails, meetings, and professional correspondence.
+- [English Learning Guides](https://clearenglishquiz.com/english-learning-guides/): Educational articles with grammar rules, common learner errors, and clear usage examples.
+- [Free AI Quiz Generator](https://clearenglishquiz.com/ai-quiz-generator/): Instant custom quiz and grammar explanations generator for any topic.
+
+## Key Quizzes
+- [Present Perfect vs. Past Simple](https://clearenglishquiz.com/english-grammar-quizzes/present-perfect-vs-past-simple/): Practice distinguishing completed past actions with definite times from actions connected to the present.
+- [English Prepositions Test (in, on, at)](https://clearenglishquiz.com/english-grammar-quizzes/english-prepositions-test/): Master prepositions of time, place, and location.
+- [English Articles (a, an, the)](https://clearenglishquiz.com/english-grammar-quizzes/english-articles-a-an-the/): Practice definite vs. indefinite articles and zero article rules.
+- [English Conditionals](https://clearenglishquiz.com/english-grammar-quizzes/english-conditionals-quiz/): Zero, first, second, and third conditional structures.
+- [Common English Mistakes](https://clearenglishquiz.com/english-grammar-quizzes/english-common-mistakes-quiz/): Subject-verb agreement, confusing word pairs, and word order.
+- [A2 Vocabulary Quiz](https://clearenglishquiz.com/english-vocabulary-tests/a2-english-vocabulary-quiz/): Everyday English expressions and high-frequency vocabulary.
+- [Phrasal Verbs Test](https://clearenglishquiz.com/english-vocabulary-tests/phrasal-verbs-test/): Practical phrasal verbs used in casual and workplace contexts.
+- [B1 Intermediate Grammar Test](https://clearenglishquiz.com/english-level-practice/b1-english-grammar-test/): Intermediate tenses, modals, and comparative structures.
+- [B2 Upper-Intermediate Practice](https://clearenglishquiz.com/english-level-practice/b2-english-grammar-practice/): Advanced conjunctions, subjunctive mood, and complex inversion.
+- [Business English Vocabulary](https://clearenglishquiz.com/business-english/business-english-vocabulary-test/): Professional communication, meetings, and workplace terminology.
+
+## Educational Guides
+- [Present Perfect vs. Past Simple Guide](https://clearenglishquiz.com/english-learning-guides/present-perfect-vs-past-simple/)
+- [How to Use English Prepositions](https://clearenglishquiz.com/english-learning-guides/how-to-use-english-prepositions/)
+- [When to Use A, An, and The](https://clearenglishquiz.com/english-learning-guides/when-to-use-a-an-and-the/)
+- [How to Improve English Vocabulary](https://clearenglishquiz.com/english-learning-guides/how-to-improve-english-vocabulary/)
